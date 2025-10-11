@@ -1,6 +1,6 @@
 # Virtual Assistant - Proof of Concept (POC)
 
-## Student
+## Personel
 
 Mike Niner Bravog
 
