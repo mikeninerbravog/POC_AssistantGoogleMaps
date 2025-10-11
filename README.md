@@ -1,6 +1,6 @@
 # Virtual Assistant - Proof of Concept (POC)
 
-## Personel
+## Officer
 
 Mike Niner Bravog
 
