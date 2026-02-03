@@ -6,10 +6,11 @@ Mike Niner Bravog
 
 ## Description
 
-This project is a virtual assistant built using **Natural Language Processing (NLP)**. The system captures audio input from the user, transcribes it to text (*Speech-to-Text*), identifies the intent, and performs searches on Google Maps based on the spoken command.
+This Poc is a virtual assistant built using **Natural Language Processing (NLP)**. The system captures audio input from the user, transcribes it to text (*Speech-to-Text*), identifies the intent, and performs searches on Google Maps based on the spoken command.
 
 
-## What is PoC and Why so important for both the Programmer and the Customer
+## What is PoC 
+### ... and Why so important for both the Programmer and the Customer
 
 A **Proof of Concept (PoC)** is an initial, controlled implementation created to validate ideas, assumptions, and technical feasibility before committing to a full-scale system. It benefits both the programmer and the client by providing early evidence that a solution is possible, identifying risks upfront, and establishing a shared technical understanding. A PoC allows ideas to move from concept to reality through small, modular experiments, in which each stage is tested in isolation and advanced only after it has been validated and approved by both the programmer and the client. This incremental approach reduces uncertainty, prevents premature complexity, and creates a solid foundation for evolving the codebase into a complete, production-ready system.
 
