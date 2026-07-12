@@ -1,105 +1,104 @@
 """
-Aluno: Marcello dos Santos
-Bootcamp: BairesDev - Machine Learning Practitioner - Fevereiro 2025
-Prova de Conceito - "Criação de Assistente Virtual"
+Bootcamp: BairesDev - Machine Learning Practitioner - February 2025
+Proof of Concept - "Virtual Assistant Creation"
 """
 
-# Importação das bibliotecas necessárias
-import speech_recognition as sr # Para reconhecimento de fala (Speech-to-Text)
-from gtts import gTTS           # Para conversão de texto em fala (Text-to-Speech)
-import playsound                # Para tocar áudio gerado
-import webbrowser               # Para abrir URLs no navegador
-import os                       # Para manipulação de arquivos (remoção de áudios antigos)
+# Import the necessary libraries
+import speech_recognition as sr # For speech recognition (Speech-to-Text)
+from gtts import gTTS           # For text-to-speech conversion (Text-to-Speech)
+import playsound                # To play generated audio
+import webbrowser               # To open URLs in the browser
+import os                       # For file manipulation (removing old audio)
 
-# Função 1: Converter texto em fala (Text-to-Speech - TTS)
+# Function 1: Convert text to speech (Text-to-Speech - TTS)
 def text_to_speech(text):
     """
-    Converte texto em áudio e reproduz a mensagem.
+    Converts text to audio and plays the message.
     
-    Parâmetros:
-    text (str): O texto a ser convertido em fala.
-
-    Retorno:
-    Nenhum. Apenas executa o áudio.
+    Parameters:
+    text (str): The text to be converted to speech.
+    
+    Return:
+    None. It just plays the audio.
     """
-    tts = gTTS(text=text, lang='pt')  # Converte texto para áudio em português
-    filename = "voice.mp3"  # Nome do arquivo de saída
+    tts = gTTS(text=text, lang='pt')  # Convert text to audio in Portuguese
+    filename = "voice.mp3"  # Output file name
 
-    # Remove o arquivo anterior para evitar conflito
+    # Remove the previous file to avoid conflict
     try:
         os.remove(filename)
     except OSError:
         pass
 
-    # Salva e reproduz o áudio
+    # Saves and plays audio
     tts.save(filename)
     playsound.playsound(filename)
 
-# Função 2: Capturar fala e converter para texto (Speech-to-Text - STT)
+# Function 2: Capture speech and convert to text (Speech-to-Text - STT)
 def speech_to_text():
     """
-    Captura a fala do usuário pelo microfone e converte em texto.
+    Captures the user's speech through the microphone and converts it to text.
     
-    Retorno:
-    str: O texto reconhecido pela IA.
-    None: Se não foi possível reconhecer a fala.
+    Return:
+    str: The text recognized by the AI.
+    None: If speech could not be recognized.
     """
-    recognizer = sr.Recognizer()  # Inicializa o reconhecedor de áudio
+    recognizer = sr.Recognizer()  # Initialize the audio recognizer
 
-    with sr.Microphone() as source:                              # Acessa o microfone do sistema
-        recognizer.pause_threshold = 1                           # Aguarda até 1 segundo de silêncio antes de processar a fala
-        recognizer.adjust_for_ambient_noise(source, duration=1)  # Ajusta para ruído ambiente
+    with sr.Microphone() as source:                              # Access the system microphone
+        recognizer.pause_threshold = 1                           # Wait up to 1 second of silence before processing speech
+        recognizer.adjust_for_ambient_noise(source, duration=1)  # Adjusts for ambient noise
 
-        print("Ouvindo...")  # Indica que está capturando áudio
+        print("Ouvindo...")  # Indicates that it is capturing audio
 
         try:
-            audio = recognizer.listen(source)  # Captura o áudio do usuário
-            text = recognizer.recognize_google(audio, language="pt-BR").lower()  # Converte fala para texto
+            audio = recognizer.listen(source)  # Captures the user's audio
+            text = recognizer.recognize_google(audio, language="pt-BR").lower()  # Converts speech to text
 
-            print(f"Você disse: {text}")  # Exibe a saída no terminal
-            return text  # Retorna o texto reconhecido
+            print(f"You said: {text}")  # Displays the output in the terminal
+            return text  # Returns the recognized text
 
-        except sr.UnknownValueError:  # Se não entender a fala
-            text_to_speech("Desculpe, não entendi. Tente novamente.")
+        except sr.UnknownValueError:  # If you don't understand speech
+            text_to_speech("Sorry, I don't understand. Please try again.")
             return None
-        except sr.RequestError:  # Se houver erro na API de reconhecimento
-            text_to_speech("Erro no serviço de reconhecimento de fala.")
+        except sr.RequestError:  # If there is an error in the recognition API
+            text_to_speech("Error in the speech recognition service.")
             return None
 
-# Função 3: Gerar busca no Google Maps
+# Function 3: Generate search on Google Maps
 def search_on_google_maps(query):
     """
-    Gera uma pesquisa no Google Maps a partir do texto capturado.
-
-    Parâmetros:
-    query (str): O termo de busca a ser pesquisado no Google Maps.
-
-    Retorno:
-    Nenhum. Apenas abre o navegador com a busca.
+    Generates a Google Maps search from the captured text.
+    
+    Parameters:
+    query(str): The search term to search for on Google Maps.
+    
+    Return:
+    None. Just open the browser with the search.
     """
     if query:
-        text_to_speech(f"OK, procurando por {query}")           # Confirma a busca antes de abrir
-        url = f"https://www.google.com/maps/search/{query}/"    # Gera a URL da pesquisa
-        webbrowser.open(url)                                    # Abre o navegador com a busca
+        text_to_speech(f"OK, looking for {query}")           # Confirm the search before opening
+        url = f"https://www.google.com/maps/search/{query}/"    # Generates the survey URL
+        webbrowser.open(url)                                    # Open the browser with the search
 
-# Função principal: Loop para capturar e processar comandos continuamente
+# Main Function: Loop to capture and process commands continuously
 def main():
     """
-    Função principal que mantém o assistente virtual em loop contínuo,
-    ouvindo e respondendo ao usuário até que seja solicitado o encerramento.
+    Main function that keeps the virtual assistant in a continuous loop,
+    listening and responding to the user until it is prompted to terminate.
     """
-    text_to_speech("Olá! O que você deseja procurar no Google Maps?")  # Mensagem inicial
+    text_to_speech("Hello! What do you want to search for on Google Maps?")  # Initial message
 
     while True:
-        user_input = speech_to_text()  # Captura o que o usuário falou
+        user_input = speech_to_text()  # Captures what the user has said
 
-        if user_input:                                      # Se capturou alguma fala
-            if user_input in ["fim", "encerrar", "sair"]:   # Se o usuário pedir para sair
-                text_to_speech("Encerrando. Até logo!")     # Mensagem de despedida
-                break                                       # Sai do loop e encerra o programa
+        if user_input:                                      # If you captured any lines
+            if user_input in ["fim", "encerrar", "sair"]:   # If the user asks to leave
+                text_to_speech("Encerrando. Até logo!")     # Farewell message
+                break                                       # Exit the loop and end the program
             
-            search_on_google_maps(user_input)               # Executa a pesquisa no Google Maps
+            search_on_google_maps(user_input)               # Runs the search on Google Maps
 
-# Executa o script apenas se ele for rodado diretamente (e não importado como módulo)
+# Runs the script only if it is run directly (and not imported as a module)
 if __name__ == "__main__":
     main()
